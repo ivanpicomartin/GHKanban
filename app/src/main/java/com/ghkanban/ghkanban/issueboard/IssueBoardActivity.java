@@ -1,13 +1,15 @@
-package com.ghkanban.ghkanban;
+package com.ghkanban.ghkanban.issueboard;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainBoardActivity extends AppCompatActivity {
+import com.ghkanban.ghkanban.R;
+
+public class IssueBoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_board);
+        setContentView(R.layout.activity_issue_board);
     }
 }
