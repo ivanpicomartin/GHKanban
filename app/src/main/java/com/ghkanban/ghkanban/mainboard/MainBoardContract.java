@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.ghkanban.ghkanban.BasePresenter;
 import com.ghkanban.ghkanban.BaseView;
+import com.ghkanban.ghkanban.data.ListRepository;
 import com.ghkanban.ghkanban.data.RepositoryObject;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface MainBoardContract {
 
         void showLocalRepositories(List<RepositoryObject> repositoryObjectList);
 
-        void showRemoteRepositories(List<RepositoryObject> repositoryObjectList);
+        void showRemoteRepositories(ListRepository repositoryObjectList);
 
         void showNoRepositories();
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ghkanban.ghkanban.R;
+import com.ghkanban.ghkanban.data.ListRepository;
 import com.ghkanban.ghkanban.data.RepositoryObject;
 
 import java.util.List;
@@ -33,8 +34,8 @@ public class MainBoardFragment extends Fragment implements MainBoardContract.Vie
     }
 
     @Override
-    public void showRemoteRepositories(List<RepositoryObject> repositoryObjectList) {
-
+    public void showRemoteRepositories(ListRepository repositoryObjectList) {
+        //add repositories to list adapter
     }
 
     @Override

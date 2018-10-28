@@ -10,17 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ghkanban.ghkanban.R;
+import com.ghkanban.ghkanban.data.ListRepository;
+import com.ghkanban.ghkanban.data.RepositoryObject;
 
-public class MainBoardActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainBoardActivity extends AppCompatActivity implements MainBoardContract.View{
 
     private static final int NUM_PAGES = 2;
-
+    private static final String TAG_PREFIX = "MBF";
 
     private ViewPager mPager;
 
     // inject
-    private MainBoardPresenter mainBoardPresenter;
-
+    MainBoardContract.Presenter mPresenter;
 
     private PagerAdapter mPagerAdapter;
 
@@ -28,6 +31,8 @@ public class MainBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_board);
+
+        mPresenter = new MainBoardPresenter();
 
         // Set up the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -37,17 +42,80 @@ public class MainBoardActivity extends AppCompatActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                // action when change page
+                pageChanged(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.takeView(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.dropView();
+    }
+
+
+
+    private void pageChanged(int position) {
+
+        if (position == 0) {
+            mPresenter.changeToRemoteRepositories();
+        } else {
+            mPresenter.changeToLocalRepositories();
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
-
             super.onBackPressed();
         } else {
 
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+    }
+
+    @Override
+    public void showLoadingIndicator(boolean active) {
+
+    }
+
+    @Override
+    public void showLocalRepositories(List<RepositoryObject> repositoryObjectList) {
+
+    }
+
+    @Override
+    public void showRemoteRepositories(ListRepository repositoryObjectList) {
+    }
+
+    @Override
+    public void showNoRepositories() {
+
+    }
+
+    @Override
+    public void showSuccessfulAdded() {
+
     }
 
 
@@ -58,7 +126,8 @@ public class MainBoardActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new MainBoardFragment();
+            MainBoardFragment mainBoardFragment = new MainBoardFragment();
+            return mainBoardFragment;
         }
 
         @Override
